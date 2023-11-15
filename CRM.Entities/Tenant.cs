@@ -2,11 +2,17 @@
 {
     public class Tenant
     {
-        // Primary Key
         public int TenantID { get; set; }
+        public string TenantName { get; set; }
 
-        // Tenant information
-        public string? TenantName { get; set; }
-        public string? DatabaseConnectionString { get; set; }
+        // Navigation properties
+        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<Business> Businesses { get; set; }
+
+        public Tenant()
+        {
+            Users = new HashSet<User>();
+            Businesses = new HashSet<Business>();
+        }
     }
 }

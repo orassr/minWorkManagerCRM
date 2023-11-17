@@ -4,12 +4,9 @@
     {
         public int BusinessID { get; set; }
         public string BusinessName { get; set; }
-        public string BusinessType { get; set; }
+        // ... Other properties like BusinessType
 
-        // Foreign key for Tenant
         public int TenantID { get; set; }
-
-        // Navigation properties
         public virtual Tenant Tenant { get; set; }
         public virtual ICollection<UserBusiness> UserBusinesses { get; set; }
 

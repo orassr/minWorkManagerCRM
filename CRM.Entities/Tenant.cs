@@ -5,7 +5,6 @@
         public int TenantID { get; set; }
         public string TenantName { get; set; }
 
-        // Navigation properties
         public virtual ICollection<User> Users { get; set; }
         public virtual ICollection<Business> Businesses { get; set; }
 

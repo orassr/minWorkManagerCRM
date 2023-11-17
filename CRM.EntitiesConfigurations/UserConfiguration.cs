@@ -8,8 +8,14 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         builder.HasKey(u => u.UserID);
 
+        builder.HasOne(u => u.Tenant)
+               .WithMany(t => t.Users)
+               .HasForeignKey(u => u.TenantID);
+
         builder.HasMany(u => u.UserBusinesses)
-            .WithOne(ub => ub.User)
-            .HasForeignKey(ub => ub.UserID);
+               .WithOne(ub => ub.User)
+               .HasForeignKey(ub => ub.UserID)
+               .OnDelete(DeleteBehavior.NoAction);
+
     }
 }

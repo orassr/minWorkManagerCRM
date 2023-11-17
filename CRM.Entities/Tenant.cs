@@ -2,7 +2,7 @@
 {
     public class Tenant
     {
-        public int TenantID { get; set; }
+        public Guid TenantID { get; set; }
         public string? TenantName { get; set; }
 
         // Navigation property

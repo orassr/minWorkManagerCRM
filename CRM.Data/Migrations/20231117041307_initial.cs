@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -7,7 +8,7 @@
 namespace CRM.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class another0000 : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,8 +17,7 @@ namespace CRM.Data.Migrations
                 name: "Tenants",
                 columns: table => new
                 {
-                    TenantID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TenantID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TenantName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -29,10 +29,9 @@ namespace CRM.Data.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TenantID = table.Column<int>(type: "int", nullable: false)
+                    TenantID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -50,12 +49,12 @@ namespace CRM.Data.Migrations
                 columns: new[] { "TenantID", "TenantName" },
                 values: new object[,]
                 {
-                    { 1, "Tenant 1" },
-                    { 2, "Tenant 2" },
-                    { 3, "Tenant 3" },
-                    { 4, "Tenant 4" },
-                    { 5, "Tenant 5" },
-                    { 6, "Tenant 6" }
+                    { new Guid("298ba02c-723c-4cbb-a6bb-7a433ad8fa28"), "Tenant 6" },
+                    { new Guid("607debc9-1d16-47fe-badf-1bf98b1c40c6"), "Tenant 5" },
+                    { new Guid("6e5e254e-692b-47ea-b1ad-1f589a14eebc"), "Tenant 3" },
+                    { new Guid("9b3f7c3f-43a6-46c9-8c69-d59effc0652f"), "Tenant 1" },
+                    { new Guid("ab0d651f-eeb6-4d8b-b1f5-db5bbe4cfd42"), "Tenant 4" },
+                    { new Guid("b63674c5-4cb5-40c4-a41f-90450d96b010"), "Tenant 2" }
                 });
 
             migrationBuilder.CreateIndex(

@@ -51,32 +51,32 @@ namespace CRM.Data
             modelBuilder.Entity<Tenant>().HasData(
                 new Tenant
                 {
-                    TenantID = 1,
+                    TenantID = Guid.NewGuid(),
                     TenantName = "Tenant 1"
                 },
                 new Tenant
                 {
-                    TenantID = 2,
+                    TenantID = Guid.NewGuid(),
                     TenantName = "Tenant 2"
                 },
                 new Tenant
                 {
-                    TenantID = 3,
+                    TenantID = Guid.NewGuid(),
                     TenantName = "Tenant 3"
                 },
                 new Tenant
                 {
-                    TenantID = 4,
+                    TenantID = Guid.NewGuid(),
                     TenantName = "Tenant 4"
                 },  
                 new Tenant
                 {
-                    TenantID = 5,
+                    TenantID = Guid.NewGuid(),
                     TenantName = "Tenant 5"
                 },
                 new Tenant
                 {
-                    TenantID = 6, 
+                    TenantID = Guid.NewGuid(),
                     TenantName = "Tenant 6"
                 }
                 

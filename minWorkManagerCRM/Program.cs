@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Adding the DbContext to our application
 builder.Services.AddDbContext<EntitiesDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("minCRM")));
 
 
 builder.Services.AddControllers();

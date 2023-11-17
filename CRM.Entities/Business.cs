@@ -8,11 +8,5 @@
 
         public int TenantID { get; set; }
         public virtual Tenant Tenant { get; set; }
-        public virtual ICollection<UserBusiness> UserBusinesses { get; set; }
-
-        public Business()
-        {
-            UserBusinesses = new HashSet<UserBusiness>();
-        }
     }
 }

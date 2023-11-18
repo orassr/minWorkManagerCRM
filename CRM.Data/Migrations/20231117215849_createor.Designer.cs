@@ -4,6 +4,7 @@ using CRM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRM.Data.Migrations
 {
     [DbContext(typeof(EntitiesDbContext))]
-    partial class EntitiesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231117215849_createor")]
+    partial class createor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,16 +51,16 @@ namespace CRM.Data.Migrations
                     b.HasData(
                         new
                         {
-                            CompanyID = new Guid("d8dc6302-4eac-40d9-bc29-9387d055686f"),
+                            CompanyID = new Guid("2055f247-df2a-449a-a432-97b28ca089db"),
                             CompanyName = "Dummy Company 1",
-                            OwnerID = new Guid("86a0836e-7a8e-4a9e-b892-1da19ee2004f"),
+                            OwnerID = new Guid("b7e76eb3-7d03-4fa8-b6e2-00d7c7356ef7"),
                             Roles = "Manager,Technician"
                         },
                         new
                         {
-                            CompanyID = new Guid("0e1e5972-691c-473b-9dd6-43295425a421"),
+                            CompanyID = new Guid("20491f2a-ec77-4a33-820e-cd08e8a48a37"),
                             CompanyName = "Dummy Company 2",
-                            OwnerID = new Guid("d1cff27c-e633-498b-8858-5327fecd0b16"),
+                            OwnerID = new Guid("75d8ce69-a8cc-42bf-8651-fe848def2ab2"),
                             Roles = "Sales,Admin"
                         });
                 });
@@ -87,14 +90,14 @@ namespace CRM.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserID = new Guid("86a0836e-7a8e-4a9e-b892-1da19ee2004f"),
+                            UserID = new Guid("b7e76eb3-7d03-4fa8-b6e2-00d7c7356ef7"),
                             Address = "123 First Avenue",
                             Email = "user1@example.com",
                             Username = "user1"
                         },
                         new
                         {
-                            UserID = new Guid("d1cff27c-e633-498b-8858-5327fecd0b16"),
+                            UserID = new Guid("75d8ce69-a8cc-42bf-8651-fe848def2ab2"),
                             Address = "456 Second Street",
                             Email = "user2@example.com",
                             Username = "user2"
@@ -121,30 +124,6 @@ namespace CRM.Data.Migrations
                     b.HasIndex("CompanyID");
 
                     b.ToTable("UserRoles");
-                });
-
-            modelBuilder.Entity("JobFlow.JobRequest", b =>
-                {
-                    b.Property<Guid>("JobRequestId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CompanyID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("JobRequestId");
-
-                    b.HasIndex("CompanyID");
-
-                    b.ToTable("JobRequests");
                 });
 
             modelBuilder.Entity("CRM.Entities.Company", b =>
@@ -175,17 +154,6 @@ namespace CRM.Data.Migrations
                     b.Navigation("Company");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("JobFlow.JobRequest", b =>
-                {
-                    b.HasOne("CRM.Entities.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("CRM.Entities.Company", b =>

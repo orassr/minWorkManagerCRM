@@ -8,8 +8,14 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         builder.HasKey(u => u.UserID);
 
-        builder.HasOne(u => u.Tenant)
-               .WithMany(t => t.Users)
-               .HasForeignKey(u => u.TenantID);
+        // Configure the one-to-many relationship with OwnedCompanies
+        builder.HasMany(u => u.OwnedCompanies)
+               .WithOne(c => c.Owner)
+               .HasForeignKey(c => c.OwnerID);
+
+        // Configure the one-to-many relationship with UserRoles
+        //builder.HasMany(u => u.UserRoles)
+        //       .WithOne(ur => ur.User)
+        //       .HasForeignKey(ur => ur.UserID);
     }
 }

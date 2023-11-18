@@ -1,6 +1,9 @@
 ﻿using CRM.Entities;
+using CRM.EntitiesConfigurations;
+using JobFlow;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Net;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -36,10 +39,9 @@ namespace CRM.Data
 
         // DbSets represent the tables in the database. Each DbSet corresponds to an entity.
         public DbSet<User> Users { get; set; }
-        //public DbSet<Business> Businesses { get; set; }
-        //public DbSet<UserBusiness> UserBusinesses { get; set; }
-        public DbSet<Tenant> Tenants { get; set; }
-
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<JobRequest> JobRequests { get; set; }
 
 
 
@@ -47,40 +49,44 @@ namespace CRM.Data
         // This approach keeps the method clean and the configurations modular and organized.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Tenant>().ToTable("Tenants");
-            modelBuilder.Entity<Tenant>().HasData(
-                new Tenant
+
+            var dummyUsers = new List<User>
+            {
+                new User
                 {
-                    TenantID = Guid.NewGuid(),
-                    TenantName = "Tenant 1"
+                    UserID = Guid.NewGuid(),
+                    Username = "user1",
+                    Email = "user1@example.com",
+                    Address = "123 First Avenue"
                 },
-                new Tenant
+                new User
                 {
-                    TenantID = Guid.NewGuid(),
-                    TenantName = "Tenant 2"
+                    UserID = Guid.NewGuid(),
+                    Username = "user2",
+                    Email = "user2@example.com",
+                    Address = "456 Second Street"
                 },
-                new Tenant
+                // ... additional dummy users ...
+            };
+
+            modelBuilder.Entity<User>().HasData(dummyUsers);
+
+            // Seeding Companies
+            modelBuilder.Entity<Company>().HasData(
+                new Company
                 {
-                    TenantID = Guid.NewGuid(),
-                    TenantName = "Tenant 3"
+                    CompanyID = Guid.NewGuid(),
+                    CompanyName = "Dummy Company 1",
+                    OwnerID = dummyUsers[0].UserID,
+                    Roles = new List<Company.Role> { Company.Role.Manager, Company.Role.Technician }
                 },
-                new Tenant
+                new Company
                 {
-                    TenantID = Guid.NewGuid(),
-                    TenantName = "Tenant 4"
-                },  
-                new Tenant
-                {
-                    TenantID = Guid.NewGuid(),
-                    TenantName = "Tenant 5"
-                },
-                new Tenant
-                {
-                    TenantID = Guid.NewGuid(),
-                    TenantName = "Tenant 6"
+                    CompanyID = Guid.NewGuid(),
+                    CompanyName = "Dummy Company 2",
+                    OwnerID = dummyUsers[1].UserID,
+                    Roles = new List<Company.Role> { Company.Role.Sales, Company.Role.Admin }
                 }
-                
-                
             );
 
             // Apply all configurations from the current assembly.
@@ -88,10 +94,9 @@ namespace CRM.Data
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             // Alternatively, if you want to apply each configuration manually, uncomment the following lines:
-             modelBuilder.ApplyConfiguration(new TenantConfiguration());
-             modelBuilder.ApplyConfiguration(new UserConfiguration());
-            //modelBuilder.ApplyConfiguration(new BusinessConfiguration());
-            //modelBuilder.ApplyConfiguration(new UserBusinessConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new CompanyConfiguration());
+            modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
 
 
             // ... other model configurations

@@ -24,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CRM.EntitiesConfigurations\CRM.EntitiesConfigurations.csproj" />
     <ProjectReference Include="..\CRM.Entities\CRM.Entities.csproj" />
+    <ProjectReference Include="..\JobFlow\JobFlow.csproj" />
   </ItemGroup>
 
   <ItemGroup>

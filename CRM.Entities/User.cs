@@ -3,18 +3,19 @@
     public class User
     {
         public Guid UserID { get; set; }
-        public string? Username { get; set; }
-        // ... Other properties like Email, Password
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public string Address { get; set; }
 
-        // Foreign key for Tenant
-        public Guid TenantID { get; set; }
-
-        // Navigation property
-        public virtual Tenant Tenant { get; set; }
+        // Navigation properties
+        //public virtual ICollection<UserRole> UserRoles { get; set; }
+        public virtual ICollection<Company> OwnedCompanies { get; set; }
 
         public User()
         {
-            // UserBusinesses collection removed
+            //UserRoles = new HashSet<UserRole>();
+            OwnedCompanies = new HashSet<Company>();
         }
     }
+
 }

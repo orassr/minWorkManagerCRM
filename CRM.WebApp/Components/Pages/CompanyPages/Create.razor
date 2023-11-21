@@ -1,0 +1,53 @@
+﻿@page "/companies/create"
+@inject CRM.Data.EntitiesDbContext DB
+@using CRM.Entities
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h4>Company</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="Company" OnValidSubmit="AddCompany" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" />
+            <div class="mb-3">
+                <label for="companyname" class="form-label">CompanyName:</label> 
+                <InputText id="companyname" @bind-Value="Company.CompanyName" class="form-control" /> 
+                <ValidationMessage For="() => Company.CompanyName" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="ownerid" class="form-label">OwnerID:</label> 
+                <InputText id="ownerid" @bind-Value="Company.OwnerID" class="form-control" /> 
+                <ValidationMessage For="() => Company.OwnerID" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="roles" class="form-label">Roles:</label> 
+                <InputText id="roles" @bind-Value="Company.Roles" class="form-control" /> 
+                <ValidationMessage For="() => Company.Roles" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/companies">Back to List</a>
+</div>
+
+@code {
+
+    [SupplyParameterFromForm]
+    public Company Company { get; set; } = new();
+
+    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+    public async Task AddCompany()
+    {
+        DB.Companies.Add(Company);
+        await DB.SaveChangesAsync();
+        NavigationManager.NavigateTo("/companies");
+    }
+}

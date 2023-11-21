@@ -1,0 +1,96 @@
+﻿@page "/Companies/edit"
+@inject CRM.Data.EntitiesDbContext DB
+@using CRM.Entities
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h4>Company</h4>
+<hr />
+@if (Company is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="Company" OnValidSubmit="UpdateCompany" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <input type="hidden" name="Company.CompanyID" value="@Company.CompanyID" />
+                <div class="mb-3">
+                    <label for="companyname" class="form-label">CompanyName:</label>
+                    <InputText id="companyname" @bind-Value="Company.CompanyName" class="form-control" />
+                    <ValidationMessage For="() => Company.CompanyName" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="ownerid" class="form-label">OwnerID:</label>
+                    <InputText id="ownerid" @bind-Value="Company.OwnerID" class="form-control" />
+                    <ValidationMessage For="() => Company.OwnerID" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="roles" class="form-label">Roles:</label>
+                    <InputText id="roles" @bind-Value="Company.Roles" class="form-control" />
+                    <ValidationMessage For="() => Company.Roles" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/companies">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    public Guid CompanyID { get; set; }
+
+    [SupplyParameterFromForm]
+    public Company? Company { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Company ??= await DB.Companies.FirstOrDefaultAsync(m => m.CompanyID == CompanyID);
+
+        if (Company is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see https://aka.ms/RazorPagesCRUD.
+    public async Task UpdateCompany()
+    {
+        DB.Attach(Company!).State = EntityState.Modified;
+
+        try
+        {
+            await DB.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!CompanyExists(Company!.CompanyID))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/companies");
+    }
+
+    bool CompanyExists(Guid companyid)
+    {
+        return DB.Companies.Any(e => e.CompanyID == companyid);
+    }
+}

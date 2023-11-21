@@ -21,7 +21,7 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
                .WithOne(ur => ur.Company)
                .HasForeignKey(ur => ur.CompanyID);
 
-        // Configure the Roles property to store enums as strings
+        // Configure the Roles property to store enum's as strings
         builder.Property(c => c.Roles)
                .HasConversion(
                    v => string.Join(",", v.Select(e => e.ToString())),

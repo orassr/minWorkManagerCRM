@@ -31,5 +31,7 @@
             Roles = new List<Role>();
             UserRoles = new HashSet<UserRole>();
         }
+
+        // Add more properties 
     }
 }
